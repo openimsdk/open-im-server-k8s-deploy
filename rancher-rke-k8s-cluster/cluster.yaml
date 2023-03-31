@@ -1,0 +1,57 @@
+nodes:
+ - address: 192.168.1.1
+   port: "22"
+   user: rke
+   role:
+   - controlplane
+   - etcd
+   - worker
+   docker_socket: /var/run/docker.sock
+   ssh_key_path: ~/.ssh/id_rsa
+   labels:
+      app: ingress
+
+ - address: 192.168.1.2
+   port: "22"
+   user: rke
+   role:
+   - controlplane
+   - etcd
+   - worker
+   docker_socket: /var/run/docker.sock
+   ssh_key_path: ~/.ssh/id_rsa
+  
+ - address: 192.168.1.3
+   port: "22"
+   user: rke
+   role:
+   - controlplane
+   - etcd
+   - worker
+   docker_socket: /var/run/docker.sock
+   ssh_key_path: ~/.ssh/id_rsa
+
+services:
+  kube-api:
+    service_node_port_range: "10000-40000"
+    extra_args:
+      service-account-issuer: "kubernetes.default.svc"
+      service-account-signing-key-file: "/etc/kubernetes/ssl/kube-service-account-token-key.pem"
+  etcd:
+    image: rancher/coreos-etcd:v3.4.9-1
+    extra_args: {}
+    snapshot: true
+    creation: 6h
+    retention: 24h
+
+ingress:
+  provider: "nginx"
+  node_selector:
+    app: ingress
+  options:
+    use-forwarded-headers: "true"
+  extra_args: {}
+  
+ssh_key_path: ~/.ssh/id_rsa
+
+cluster_name: rke-k8s
