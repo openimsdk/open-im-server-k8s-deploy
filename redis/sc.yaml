@@ -1,0 +1,9 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: redis-data-pv
+  namespace: redis
+provisioner: kubernetes.io/nfs
+parameters:
+  server: 59.36.173.89
+  path: "/k8s/storage/nfs/redis"

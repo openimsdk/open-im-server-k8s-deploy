@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-data-pv
+  namespace: redis
+spec:
+    capacity:
+      storage: 10Gi
+    volumeMode: Filesystem
+    accessModes:
+      - ReadWriteMany
+    persistentVolumeReclaimPolicy: Retain
+    storageClassName: "redis-data-pv"
+    nfs:
+      path: "/k8s/storage/nfs/redis"
+      server: 59.36.173.89
