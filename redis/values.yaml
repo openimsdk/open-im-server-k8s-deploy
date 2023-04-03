@@ -16,7 +16,7 @@ global:
   ##   - myRegistryKeySecretName
   ##
   imagePullSecrets: []
-  storageClass: "redis-data-pv"
+  storageClass: "redis-data-sc"
   redis:
     password: "openIM123"
 
@@ -312,7 +312,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "redis-data-pv"
+  storageClass: "redis-data-sc"
   ## @param persistence.annotations Persistent Volume Claim annotations
   ##
   annotations: {}
