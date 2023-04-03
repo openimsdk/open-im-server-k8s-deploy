@@ -1,8 +1,11 @@
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
   name: redis-data-sc
 provisioner: kubernetes.io/nfs
+reclaimPolicy: Retain
+allowVolumeExpansion: true
 parameters:
   server: 192.168.1.243
   path: "/k8s/storage/nfs/redis"
+volumeBindingMode: Immediate

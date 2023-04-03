@@ -18,7 +18,7 @@ global:
   imagePullSecrets: []
   storageClass: "redis-data-sc"
   redis:
-    password: "openIM123"
+    password: "openIMExamplePwd"
 
 ## @section Redis&reg; Cluster Common parameters
 ##
