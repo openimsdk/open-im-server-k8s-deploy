@@ -3,7 +3,7 @@ kind: StorageClass
 metadata:
   name: redis-data-sc
 provisioner: kubernetes.io/nfs
-reclaimPolicy: Retain
+reclaimPolicy: Recycle
 allowVolumeExpansion: true
 parameters:
   server: 192.168.1.243
