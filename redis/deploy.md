@@ -1,4 +1,4 @@
-# redis集群helm部署文档
+# redis集群helm charts部署文档
 ## 部署步骤
 ### 1. 创建namespace
 ```
@@ -12,9 +12,14 @@ kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
-|参数名|参数说明|
+values.yaml参数说明
+|参数名   |   参数说明    |
 |  ----  | ----  |
-|cluster.nodes|为主节点数量|
+|cluster.nodes|为节点数量，包含主和从|
+|cluster.replicas|为replicas数量|
+| global.password| redis密码 |
+| global.storageClass| 存储类名|
+
 
 ### 3. 安装redis集群
 安装redis集群
