@@ -10,7 +10,7 @@ spec:
     accessModes:
       - ReadWriteMany
     persistentVolumeReclaimPolicy: Retain
-    storageClassName: "redis-data-pv"
+    storageClassName: "redis-data-sc"
     nfs:
       path: "/k8s/storage/nfs/redis"
       server: 192.168.1.243
