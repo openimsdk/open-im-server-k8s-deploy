@@ -13,7 +13,7 @@ kubectl apply -f ./sc.yaml;
 values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
-| architecture| replication |mysql|
+| architecture| replication |主从复制模式|
 | auth.rootPassword| openIMExamplePwd  |mysql密码， 用户为root用户，可不填 |
 | global.storageClass| mysql-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
 | secondary.replicaCount	|1 |从节点数量
