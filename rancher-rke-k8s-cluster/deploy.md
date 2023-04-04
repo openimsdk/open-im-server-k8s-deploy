@@ -1,5 +1,6 @@
 # rancher RKE部署k8s集群部署文档
 ## 部署步骤
+该文档以3台服务器为例
 ### 1. 在每台服务器上添加rke执行操作的用户
 用户需要有使用docker的权限
 ```
@@ -81,7 +82,6 @@ helm repo update;
 ```
 sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
 ```
-
 
 ## 常见问题
 清理脚本: clear_env.sh，worder和master执行，

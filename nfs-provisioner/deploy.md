@@ -1,6 +1,6 @@
 # nfs external provisioner 部署文档
 ### helm安装
-
+nfs external provisioner可以自动为pvc申请pv
 add repo
 ```
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
@@ -8,12 +8,13 @@ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/
 helm repo update
 ```
 
-helm pull 
+helm pull provisioner
 ```
  helm pull nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+ tar -zxvf nfs-subdir-external-provisioner-4.0.18.tgz
 ```
 
-修改values.yaml, 仓库修改为阿里云镜像
+进入目录, 修改values.yaml, 仓库修改为阿里云镜像
 ```
 repository: registry.cn-hangzhou.aliyuncs.com/lzf-k8s/k8s-nfs-storage
 tag: 1.0.0
