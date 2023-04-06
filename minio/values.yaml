@@ -88,7 +88,7 @@ clientImage:
 ## @param mode MinIO&reg; server mode (`standalone` or `distributed`)
 ## ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
 ##
-mode: distributed
+mode: standalone
 ## MinIO&reg; authentication parameters
 ##
 auth:
