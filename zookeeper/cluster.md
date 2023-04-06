@@ -27,12 +27,13 @@ values.yaml常用参数说明
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
-    nodeSelectorTerms:
-    - matchExpressions:
-      - key: zookeeper
-        operator: In
-        values:
-        - "true"
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: mysql
+            operator: In 
+            values: 
+            - "true"
 ```
 
 ### 3. 安装zookeeper集群

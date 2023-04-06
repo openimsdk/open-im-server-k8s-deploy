@@ -445,7 +445,7 @@ nodeAffinityPreset:
 ##
 affinity: 
   podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
+    requiredDuringSchedulingIgnoredDuringExecution:
     - topologyKey: kubernetes.io/hostname
       labelSelector:
         matchExpressions: 

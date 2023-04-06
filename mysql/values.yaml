@@ -261,12 +261,13 @@ primary:
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: mysql
-            operator: In
-            values:
-            - "true"
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchExpressions: 
+              - key: mysql
+                operator: In 
+                values: 
+                - "true"
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
