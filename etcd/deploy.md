@@ -18,10 +18,10 @@ values.yaml常用参数说明
 | global.storageClass| etcd-data-sc| 存储类名，需要和sc.yaml中storageClass保持一致|
 | affinity | | 亲和性配置|
 
-节点亲和性, 保证三台服务器上不会出现一台服务器部署两个etcd实例的情况
+节点亲和性
 ```
 podAntiAffinity:
-  requiredDuringSchedulingIgnoredDuringExecution:
+  preferredDuringSchedulingIgnoredDuringExecution:
     nodeSelectorTerms:
     - matchExpressions:
       - key: etcd
