@@ -32,3 +32,8 @@ helm install mongo-shared-cluster -f values.yaml bitnami/mongodb-sharded -n mong
 ```
 helm delete mongo-shared-cluster -n mongo
 ```
+
+通过values.yaml更新mongo集群
+```
+helm upgrade mongo-shared-cluster  bitnami/mongodb-sharded -f values.yaml -n mongo
+```

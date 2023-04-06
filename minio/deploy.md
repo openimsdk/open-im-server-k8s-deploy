@@ -13,7 +13,7 @@ kubectl apply -f ./sc.yaml;
 values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
-| mode | standalone | 部署模式: standalone or distributed |
+| mode | standalone | 部署模式: standalone or distributed, distributed需要多硬盘支持 |
 | auth.rootUser | admin | minio管理员账号 |
 | auth.rootPassword|  openIMExamplePwd  | minio管理员密码 |
 | statefulset.replicaCount | 4 | 分布式部署下，实例必须大于4个 |
@@ -33,4 +33,9 @@ helm install minio-cluster -f values.yaml bitnami/minio -n minio
 卸载minio集群
 ```
 helm delete minio-cluster -n minio
+```
+
+通过values.yaml更新minio集群
+```
+helm upgrade minio-cluster  bitnami/minio -f values.yaml -n minio
 ```

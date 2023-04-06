@@ -32,3 +32,7 @@ helm install zookeeper-cluster -f values.yaml bitnami/zookeeper -n zookeeper
 ```
 helm delete zookeeper-cluster -n zookeeper
 ```
+通过values.yaml更新zookeeper集群
+```
+helm upgrade zookeeper-cluster  bitnami/zookeeper -f values.yaml -n zookeeper
+```

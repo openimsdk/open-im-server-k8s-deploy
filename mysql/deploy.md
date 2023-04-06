@@ -1,4 +1,4 @@
-# mysql(1主1从)helm charts部署文档
+# mysql(1主N从)helm charts部署文档
 ## 部署步骤
 ### 1. 创建namespace
 ```
@@ -28,4 +28,9 @@ helm install mysql-cluster -f values.yaml bitnami/mysql -n mysql
 卸载mysql集群
 ```
 helm delete mysql-cluster  -n mysql
+```
+
+通过values.yaml更新mysql集群
+```
+helm upgrade mysql-cluster  bitnami/mysql -f values.yaml -n mysql
 ```

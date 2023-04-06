@@ -28,3 +28,7 @@ helm install redis-cluster -f values.yaml bitnami/redis-cluster -n redis
 ```
 helm delete redis-cluster -n redis
 ```
+通过values.yaml更新redis集群
+```
+helm upgrade redis-cluster  bitnami/redis-cluster -f values.yaml -n redis
+```
