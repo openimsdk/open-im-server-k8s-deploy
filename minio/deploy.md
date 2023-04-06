@@ -2,7 +2,7 @@
 ## 部署步骤
 ### 1. 创建namespace
 ```
-kubectl create ns mongo
+kubectl create ns minio
 ```
 ### 2. 创建kafka storageClass
 ```
