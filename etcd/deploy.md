@@ -16,6 +16,7 @@ values.yaml常用参数说明
 | replicaCount| 3 | etcd实例数量|
 | auth.rootPassword| openIMExamplePwd |etcd密码， 用户为root用户，可不填 |
 | global.storageClass| etcd-data-sc| 存储类名，需要和sc.yaml中storageClass保持一致|
+| affinity | | 亲和性|
 
 节点亲和性, 保证三台服务器上不会出现一台服务器部署两个etcd实例的情况
 ```
