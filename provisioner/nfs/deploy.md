@@ -27,6 +27,11 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
     --set nfs.path=/k8s/storage/nfs -f values.yaml 
 ```
 
+查看provisioner
+```
+kubectl get pods
+```
+
 ### helm卸载
 ```
 helm delete nfs-subdir-external-provisioner
