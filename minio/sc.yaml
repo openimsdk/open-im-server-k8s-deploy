@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: minio-data-sc
+provisioner: cluster.local/nfs-subdir-external-provisioner
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+parameters:
+  server: 192.168.1.243
+  path: "/k8s/storage/nfs/minio"
+volumeBindingMode: Immediate
