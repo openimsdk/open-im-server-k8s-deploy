@@ -34,13 +34,10 @@ podAntiAffinity:
 ```
 helm install etcd-cluster -f values.yaml bitnami/etcd -n etcd
 ```
-
 卸载etcd集群
 ```
 helm delete etcd-cluster  -n etcd
 ```
-
-
 通过values.yaml更新etcd集群
 ```
 helm upgrade etcd-cluster bitnami/etcd -f values.yaml -n etcd
