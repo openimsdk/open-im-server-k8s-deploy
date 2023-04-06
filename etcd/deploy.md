@@ -6,7 +6,7 @@ kubectl create namespace etcd
 ```
 ### 2. 创建etcd storageClass
 ```
-kubectl apply -f ./sc.yaml;
+    kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
@@ -19,7 +19,7 @@ values.yaml常用参数说明
 
 节点亲和性, 保证三台服务器上不会出现一台服务器部署两个etcd实例的情况
 ```
-nodeAffinity:
+podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
       - matchExpressions:
