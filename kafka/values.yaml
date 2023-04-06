@@ -213,7 +213,7 @@ zookeeperConnectionTimeoutMs: 6000
 ## @param zookeeperChrootPath Path which puts data under some path in the global ZooKeeper namespace
 ## ref: https://kafka.apache.org/documentation/#brokerconfigs_zookeeper.connect
 ##
-zookeeperChrootPath: ""
+zookeeperChrootPath: "zookeeper-cluster-0.zookeeper-cluster-headless.zookeeper, zookeeper-cluster-1.zookeeper-cluster-headless.zookeeper, zookeeper-cluster-2.zookeeper-cluster-headless.zookeeper"
 ## @param authorizerClassName The Authorizer is configured by setting authorizer.class.name=kafka.security.authorizer.AclAuthorizer in server.properties
 ##
 authorizerClassName: ""
