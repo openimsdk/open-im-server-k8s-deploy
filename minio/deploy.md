@@ -15,7 +15,7 @@ values.yaml常用参数说明
 |  ----  | ----  | --- |
 | mode | standalone | 部署模式: standalone or distributed |
 | auth.rootUser | admin | minio管理员账号 |
-| auth.rootPassword|  3  | minio管理员密码 |
+| auth.rootPassword|  openIMExamplePwd  | minio管理员密码 |
 | statefulset.replicaCount | 4 | 分布式部署下，实例必须大于4个 |
 | defaultBuckets | "app, openim" | 默认创建桶名 |
 | ingress | | console ingress配置 | 
