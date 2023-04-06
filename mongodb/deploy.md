@@ -28,24 +28,26 @@ config server pod亲和性, 要求三台服务器上不会出现同一节点存�
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
-    nodeSelectorTerms:
-    - matchExpressions:
-      - key: configSvr
-        operator: In
-        values:
-        - "true"
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: configSvr
+            operator: In 
+            values: 
+            - "true"
 ```
 
 mongos pod亲和性, 要求三台服务器上不会出现同一节点存在两个mongos的情况
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
-    nodeSelectorTerms:
-    - matchExpressions:
-      - key: mongos
-        operator: In
-        values:
-        - "true"
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: mongos
+            operator: In 
+            values: 
+            - "true"
 ```
 该规则将在调度过程中强制要求MongoDB Shard主节点和副本节点不在同一节点上
 ```

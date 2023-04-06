@@ -390,12 +390,13 @@ configsvr:
   affinity: 
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: configSvr
-            operator: In
-            values:
-            - "true"
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchExpressions: 
+              - key: configSvr
+                operator: In 
+                values: 
+                - "true"
   ## @param configsvr.nodeSelector Config Server Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -713,12 +714,13 @@ mongos:
   affinity: 
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: mongos
-            operator: In
-            values:
-            - "true"
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchExpressions: 
+              - key: mongos
+                operator: In 
+                values: 
+                - "true"
   ## @param mongos.nodeSelector Mongos Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -1357,10 +1359,10 @@ shardsvr:
     ## @param shardsvr.arbiter.affinity Arbiter's Affinity for pod assignment
     ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
     ## You can set arbiterLoopId (or any other parameter) by setting the below code block under this 'affinity' section:
-    ## affinity:
-    ##   matchLabels:
-    ##     shard: "{{ .arbiterLoopId }}"
-    ##
+    # affinity:
+    #   matchLabels:
+    #     shard: "{{ .arbiterLoopId }}"
+    
     ## Note: shardsvr.arbiter.podAffinityPreset, shardsvr.arbiter.podAntiAffinityPreset, and shardsvr.arbiter.nodeAffinityPreset will be ignored when it's set
     ##
     affinity: 
@@ -1368,11 +1370,11 @@ shardsvr:
         requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchLabels:
-                app: {{ template "mongodb.name" . }}-shard
-                role: {{ template "mongodb.name" . }}-shard-mongodb
+                app: {{  template "mongodb.name" . }}
+                role: {{ template "mongodb.name" . }}
             topologyKey: "kubernetes.io/hostname"
     ## @param shardsvr.arbiter.nodeSelector Arbiter's Node labels for pod assignment
-    ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+    ## ref: https://kubernetes.io/docs/user-guide/node-selection/  -shard -shard-mongodb
     ##
     nodeSelector: {}
     ## @param shardsvr.arbiter.tolerations Arbiter's Tolerations for pod assignment
