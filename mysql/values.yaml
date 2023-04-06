@@ -258,7 +258,15 @@ primary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-  affinity: {}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: mysql
+            operator: In
+            values:
+            - "true"
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -534,7 +542,8 @@ primary:
     maxUnavailable: ""
   ## @param primary.podLabels MySQL Primary pod label. If labels are same as commonLabels , this will take precedence
   ##
-  podLabels: {}
+  podLabels: 
+    mysql: "true"
 
 ## @section MySQL Secondary parameters
 ##

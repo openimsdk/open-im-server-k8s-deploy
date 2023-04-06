@@ -20,8 +20,43 @@ values.yaml常用参数说明
 | mongos.replicaCount | 3 | mongos实例数 |
 | shardsvr.dataNode.replicaCount | 2 | 分片副本总数 | 
 |global.storageClass| mongo-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
+| configsvr.affinity | |config server 亲和力 |
+| mongos.affinity | | mongos 亲和力|
 
 
+config server pod亲和性, 要求三台服务器上不会出现同一节点存在两个config server的情况
+```
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: configSvr
+        operator: In
+        values:
+        - "true"
+```
+
+mongos pod亲和性, 要求三台服务器上不会出现同一节点存在两个mongos的情况
+```
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: mongos
+        operator: In
+        values:
+        - "true"
+```
+该规则将在调度过程中强制要求MongoDB Shard主节点和副本节点不在同一节点上
+```
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchLabels:
+          app: {{ template "mongodb.name" . }}-shard
+          role: {{ template "mongodb.name" . }}-shard-mongodb
+      topologyKey: "kubernetes.io/hostname"
+```
 ### 3. 安装mongo分片集群
 安装mongo集群
 ```

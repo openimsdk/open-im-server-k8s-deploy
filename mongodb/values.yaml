@@ -387,7 +387,15 @@ configsvr:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: configsvr.podAffinityPreset, configsvr.podAntiAffinityPreset, and configsvr.nodeAffinityPreset will be ignored when it's set
   ##
-  affinity: {}
+  affinity: 
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: configSvr
+            operator: In
+            values:
+            - "true"
   ## @param configsvr.nodeSelector Config Server Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -452,7 +460,8 @@ configsvr:
   ## @param configsvr.podLabels Additional pod labels
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels: {}
+  podLabels: 
+    configSvr: "true"
   ## @param configsvr.extraVolumes Array to add extra volumes. Requires setting `extraVolumeMounts`
   ##
   extraVolumes: []
@@ -701,7 +710,15 @@ mongos:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: mongos.podAffinityPreset, mongos.podAntiAffinityPreset, and mongos.nodeAffinityPreset will be ignored when it's set
   ##
-  affinity: {}
+  affinity: 
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: mongos
+            operator: In
+            values:
+            - "true"
   ## @param mongos.nodeSelector Mongos Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -766,7 +783,8 @@ mongos:
   ## @param mongos.podLabels Additional pod labels
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels: {}
+  podLabels: 
+    mongos: "true"
   ## @param mongos.extraVolumes Array to add extra volumes. Requires setting `extraVolumeMounts`
   ##
   extraVolumes: []
@@ -1345,7 +1363,14 @@ shardsvr:
     ##
     ## Note: shardsvr.arbiter.podAffinityPreset, shardsvr.arbiter.podAntiAffinityPreset, and shardsvr.arbiter.nodeAffinityPreset will be ignored when it's set
     ##
-    affinity: {}
+    affinity: 
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: {{ template "mongodb.name" . }}-shard
+                role: {{ template "mongodb.name" . }}-shard-mongodb
+            topologyKey: "kubernetes.io/hostname"
     ## @param shardsvr.arbiter.nodeSelector Arbiter's Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
     ##
