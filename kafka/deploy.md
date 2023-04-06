@@ -18,6 +18,19 @@ values.yaml常用参数说明
 |global.storageClass| kafka-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
 
 
+节点亲和性, 保证三台服务器上不会出现一台服务器部署两个etcd实例的情况
+```
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - topologyKey: kubernetes.io/hostname
+    labelSelector:
+      matchExpressions: 
+        - key: etcd
+          operator: In 
+          values: 
+          - "true"
+```
+
 ### 3. 安装kafka集群
 安装kafka集群
 ```

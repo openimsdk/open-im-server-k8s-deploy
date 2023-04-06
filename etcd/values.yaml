@@ -446,12 +446,13 @@ nodeAffinityPreset:
 affinity: 
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: etcd
-          operator: In
-          values:
-          - true
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: etcd
+            operator: In 
+            values: 
+            - "true"
 ## @param nodeSelector [object] Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
