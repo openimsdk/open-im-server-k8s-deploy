@@ -13,7 +13,7 @@ kubectl apply -f ./sc.yaml;
 values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
-| mode | distributed | 部署模式: standalone or distributed |
+| mode | standalone | 部署模式: standalone or distributed |
 | auth.rootUser | admin | minio管理员账号 |
 | auth.rootPassword|  3  | minio管理员密码 |
 | statefulset.replicaCount | 4 | 分布式部署下，实例必须大于4个 |
