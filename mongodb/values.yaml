@@ -1046,14 +1046,7 @@ shardsvr:
     ##
     ## Note: shardsvr.dataNode.podAffinityPreset, shardsvr.dataNode.podAntiAffinityPreset, and shardsvr.dataNode.nodeAffinityPreset will be ignored when it's set
     ##
-    affinity: 
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchLabels:
-                app: {{  template "mongodb.name" . }}
-                role: {{ template "mongodb.name" . }}
-            topologyKey: "kubernetes.io/hostname"
+    affinity: {}
     ## @param shardsvr.dataNode.nodeSelector Data nodes Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
     ## You can set dataNodeLoopId (or any other parameter) by setting the below code block under this 'nodeSelector' section:
