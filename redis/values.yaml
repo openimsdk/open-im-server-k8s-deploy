@@ -608,16 +608,25 @@ redis:
   ##
   affinity: 
     podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - topologyKey: kubernetes.io/hostname
           labelSelector:
-            matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - redis-cluster
-          topologyKey: kubernetes.io/hostname
+            matchExpressions: 
+              - key: app.kubernetes.io/name
+                operator: In 
+                values: 
+                - redis-cluster
+    # podAntiAffinity:
+    #   preferredDuringSchedulingIgnoredDuringExecution:
+    #   - weight: 100
+    #     podAffinityTerm:
+    #       labelSelector:
+    #         matchExpressions:
+    #         - key: app.kubernetes.io/name
+    #           operator: In
+    #           values:
+    #           - redis-cluster
+    #       topologyKey: kubernetes.io/hostname
 
   ## @param redis.nodeSelector Node labels for Redis&reg; pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
