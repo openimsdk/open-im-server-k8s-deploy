@@ -16,15 +16,13 @@ kubectl apply -f ./sc.yaml;
 | mode | standalone | 部署模式: standalone or distributed, distributed需要多硬盘支持 |
 | auth.rootUser | admin | minio管理员账号 |
 | auth.rootPassword|  openIMExamplePwd  | minio管理员密码 |
-| statefulset.replicaCount | 4 | 分布式部署下，实例必须大于4个 |
+| statefulset.replicaCount | 1 | 分布式部署下，实例必须大于4个 |
 | defaultBuckets | "app, openim" | 默认创建桶名 |
 | ingress | | console ingress配置 | 
 | apiIngress | | api ingress配置  |
 | persistence.size | 200Gi | pv最大size |
 |global.storageClass| minio-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
 | affinity | 示例如下| 亲和性 |
-
-#### 2. affinity 配置
 
 
 ### 3. 安装minio分片集群
