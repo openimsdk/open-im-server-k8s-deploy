@@ -278,6 +278,7 @@ primary:
               operator: In
               values:
               - "true"
+          topologyKey: kubernetes.io/hostname
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
