@@ -389,14 +389,16 @@ configsvr:
   ##
   affinity: 
     podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
           labelSelector:
-            matchExpressions: 
-              - key: configSvr
-                operator: In 
-                values: 
-                - "true"
+            matchExpressions:
+            - key: app.kubernetes.io/component
+              operator: In
+              values:
+              - configsvr
+          topologyKey: kubernetes.io/hostname
   ## @param configsvr.nodeSelector Config Server Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -713,14 +715,16 @@ mongos:
   ##
   affinity: 
     podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
           labelSelector:
-            matchExpressions: 
-              - key: mongos
-                operator: In 
-                values: 
-                - "true"
+            matchExpressions:
+            - key: app.kubernetes.io/component
+              operator: In
+              values:
+              - mongos
+          topologyKey: kubernetes.io/hostname
   ## @param mongos.nodeSelector Mongos Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##

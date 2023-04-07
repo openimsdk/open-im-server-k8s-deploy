@@ -24,6 +24,7 @@ kubectl apply -f ./sc.yaml;
 | affinity | 示例如下| 亲和性 |
 
 #### 2. 亲和性配置
+app.kubernetes.io/name:zookeeper
 pod反亲和性，保证zookeeper的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:

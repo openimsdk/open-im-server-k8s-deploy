@@ -703,24 +703,34 @@ updateJob:
   ## Note: updateJob.podAffinityPreset, updateJob.podAntiAffinityPreset, and updateJob.nodeAffinityPreset will be ignored when it's set
   ##
   affinity: 
+    # podAntiAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #   - labelSelector:
+    #       matchLabels:
+    #         app.kubernetes.io/component: redis
+    #         app.kubernetes.io/name: redis-cluster
+    #     topologyKey: "kubernetes.io/hostname"
+    # podAffinity:
+    #   preferredDuringSchedulingIgnoredDuringExecution:
+    #   - podAffinityTerm:
+    #       labelSelector:
+    #         matchExpressions:
+    #         - key: app.kubernetes.io/name
+    #           operator: In
+    #           values:
+    #           - redis-cluster
+    #       topologyKey: "kubernetes.io/hostname"
+    #     weight: 100
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchLabels:
-            app.kubernetes.io/component: redis
-            app.kubernetes.io/name: redis-cluster
-        topologyKey: "kubernetes.io/hostname"
-    podAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - podAffinityTerm:
-          labelSelector:
+        - labelSelector:
             matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - redis-cluster
+              - key: role
+                operator: In
+                values:
+                  - redis-cluster
           topologyKey: "kubernetes.io/hostname"
-        weight: 100
+
   ## @param updateJob.nodeSelector Node labels for update job pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
