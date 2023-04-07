@@ -2,7 +2,7 @@
 ## 部署步骤
 ### 1. 创建namespace
 ```
-kubectl create ns mysql
+kubectl create namespace mysql
 ```
 ### 2. 创建mysql storageClass
 ```
@@ -20,6 +20,7 @@ kubectl apply -f ./sc.yaml;
 | affinity | 示例如下| 亲和性 |
 
 #### 2. affinity 配置
+app.kubernetes.io/name: mysql
 pod反亲和性，保证mysql的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
@@ -27,10 +28,10 @@ podAntiAffinity:
     - topologyKey: kubernetes.io/hostname
       labelSelector:
         matchExpressions: 
-          - key: mysql
+          - key: app.kubernetes.io
             operator: In 
             values: 
-            - "true"
+            - mysql
 ```
 
 pod反亲和性，尽量保证mysql的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将mysql调度到同一个node
@@ -41,10 +42,10 @@ podAntiAffinity:
     podAffinityTerm:
       labelSelector:
         matchExpressions:
-        - key: mysql
+        - key: app.kubernetes.io/name
           operator: In
           values:
-          - "true"
+          - mysql
       topologyKey: kubernetes.io/hostname
 ```
 

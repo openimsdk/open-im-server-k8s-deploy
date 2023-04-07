@@ -10,7 +10,7 @@ kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
-values.yaml常用参数说明
+#### 1. values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
 | auth.rootUser | root | mongoDB用户名 |
@@ -23,42 +23,93 @@ values.yaml常用参数说明
 | configsvr.affinity | |config server 亲和力 |
 | mongos.affinity | | mongos 亲和力|
 
-
-config server pod亲和性, 要求三台服务器上不会出现同一节点存在两个config server的情况
+#### 2. config server pod 非亲和性
+app.kubernetes.io/component: configsvr
+##### 1. 保证config server的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     - topologyKey: kubernetes.io/hostname
       labelSelector:
         matchExpressions: 
-          - key: configSvr
+          - key: app.kubernetes.io/component
             operator: In 
             values: 
-            - "true"
+            - configsvr
+```
+##### 2. 尽量保证config server的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将config server调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+          - configsvr
+      topologyKey: kubernetes.io/hostname
 ```
 
-mongos pod亲和性, 要求三台服务器上不会出现同一节点存在两个mongos的情况
+#### 3. mongos pod 非亲和性
+app.kubernetes.io/component: mongos
+##### 1. 保证mongos的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     - topologyKey: kubernetes.io/hostname
       labelSelector:
         matchExpressions: 
-          - key: mongos
+          - key: app.kubernetes.io/component
             operator: In 
             values: 
-            - "true"
+            - mongos
 ```
-该规则将在调度过程中强制要求MongoDB Shard主节点和副本节点不在同一节点上
+##### 2. 尽量保证mongos的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将mongos调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+          - mongos
+      topologyKey: kubernetes.io/hostname
+```
+
+#### 4. mongo shard pod 非亲和性
+app.kubernetes.io/component: shardsvr
+##### 1. 保证mongos的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
-    - labelSelector:
-        matchLabels:
-          app: {{ template "mongodb.name" . }}-shard
-          role: {{ template "mongodb.name" . }}-shard-mongodb
-      topologyKey: "kubernetes.io/hostname"
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: app.kubernetes.io/component
+            operator: In 
+            values: 
+            - mongos
 ```
+##### 2. 尽量保证mongos的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将mongos调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+          - mongos
+      topologyKey: kubernetes.io/hostname
+```
+
 ### 3. 安装mongo分片集群
 安装mongo集群
 ```

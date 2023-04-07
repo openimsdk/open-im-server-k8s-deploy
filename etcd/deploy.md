@@ -6,7 +6,7 @@ kubectl create namespace etcd
 ```
 ### 2. 创建etcd storageClass
 ```
-    kubectl apply -f ./sc.yaml;
+kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
@@ -16,7 +16,7 @@ kubectl create namespace etcd
 | replicaCount| 3 | etcd实例数量|
 | auth.rootPassword| openIMExamplePwd |etcd密码， 用户为root用户，可不填 |
 | global.storageClass| etcd-data-sc| 存储类名，需要和sc.yaml中storageClass保持一致|
-| affinity | | 亲和性配置|
+| affinity | 示例如下 | 亲和性配置|
 
 #### 2. affinity 配置
 pod反亲和性，保证etcd的pod不会被调度到同一个node上运行

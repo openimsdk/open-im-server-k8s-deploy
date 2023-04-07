@@ -10,7 +10,7 @@ kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
-values.yaml常用参数说明
+#### 1. values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
 | mode | standalone | 部署模式: standalone or distributed, distributed需要多硬盘支持 |
@@ -22,6 +22,9 @@ values.yaml常用参数说明
 | apiIngress | | api ingress配置  |
 | persistence.size | 200Gi | pv最大size |
 |global.storageClass| minio-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
+| affinity | 示例如下| 亲和性 |
+
+#### 2. affinity 配置
 
 
 ### 3. 安装minio分片集群

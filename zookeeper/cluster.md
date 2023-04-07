@@ -10,7 +10,7 @@ kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
-values.yaml常用参数说明
+#### 1. values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
 |auth.client.enabled| true |是否启用ZooKeeper客户端-服务器认证，使用SASL/Digest-MD5协议 |
@@ -21,19 +21,34 @@ values.yaml常用参数说明
 | auth.client.serverPasswords | openIMExamplePwd|ZooKeeper服务器用户时使用的密码 |
 | global.password| openIMExamplePwd |zookeeper密码 |
 | global.storageClass| zookeeper-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
-| | |
+| affinity | 示例如下| 亲和性 |
 
-节点亲和性, 保证三台服务器上不会出现一台服务器部署两个zookeeper server的情况
+#### 2. 亲和性配置
+pod反亲和性，保证zookeeper的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     - topologyKey: kubernetes.io/hostname
       labelSelector:
         matchExpressions: 
-          - key: mysql
+          - key: app.kubernetes.io/name
             operator: In 
             values: 
-            - "true"
+            - zookeeper
+```
+pod反亲和性，尽量保证etcd的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将etcd调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/name
+          operator: In
+          values:
+          - zookeeper
+      topologyKey: kubernetes.io/hostname
 ```
 
 ### 3. 安装zookeeper集群

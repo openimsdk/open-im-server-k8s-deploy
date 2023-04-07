@@ -274,10 +274,10 @@ primary:
         podAffinityTerm:
           labelSelector:
             matchExpressions:
-            - key: mysql
+            - key: app.kubernetes.io/name
               operator: In
               values:
-              - "true"
+              - mysql
           topologyKey: kubernetes.io/hostname
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
