@@ -10,15 +10,17 @@ kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
-values.yaml常用参数说明
+#### 1. values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
 | architecture| replication |主从复制模式|
 | auth.rootPassword| openIMExamplePwd  |mysql密码， 用户为root用户，可不填 |
 | global.storageClass| mysql-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
-| secondary.replicaCount	|1 |从节点数量
+| secondary.replicaCount	|1 |从节点数量 |
+| affinity | 示例如下| 亲和性 |
 
-节点亲和性, 保证三台服务器上不会出现一台服务器部署两个mysql server的情况
+#### 2. affinity 配置
+pod反亲和性，保证mysql的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
@@ -29,6 +31,21 @@ podAntiAffinity:
             operator: In 
             values: 
             - "true"
+```
+
+pod反亲和性，尽量保证mysql的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将mysql调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: mysql
+          operator: In
+          values:
+          - "true"
+      topologyKey: kubernetes.io/hostname
 ```
 
 ### 3. 安装mysql集群

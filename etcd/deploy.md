@@ -10,7 +10,7 @@ kubectl create namespace etcd
 ```
 
 ### 3. 修改values.yaml
-values.yaml常用参数说明
+#### 1. values.yaml常用参数说明
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
 | replicaCount| 3 | etcd实例数量|
@@ -18,17 +18,35 @@ values.yaml常用参数说明
 | global.storageClass| etcd-data-sc| 存储类名，需要和sc.yaml中storageClass保持一致|
 | affinity | | 亲和性配置|
 
-节点亲和性, 保证三台服务器上不会出现一台服务器部署两个etcd实例的情况
+#### 2. affinity 配置
+pod反亲和性，保证etcd的pod不会被调度到同一个node上运行
 ```
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
-    nodeSelectorTerms:
-    - matchExpressions:
-      - key: etcd
-        operator: In
-        values:
-        - "true"
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: etcd
+            operator: In 
+            values: 
+            - "true"
 ```
+
+pod反亲和性，尽量保证etcd的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将etcd调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: etcd
+          operator: In
+          values:
+          - "true"
+      topologyKey: kubernetes.io/hostname
+```
+
 
 ### 3. 安装etcd集群
 安装etcd集群
