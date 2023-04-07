@@ -259,6 +259,7 @@ primary:
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
   affinity:
+    podAntiAffinity:
     # podAntiAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
     #     - topologyKey: kubernetes.io/hostname
@@ -268,14 +269,14 @@ primary:
     #             operator: In 
     #             values: 
     #             - "true"
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 1
-        preference:
-          matchExpressions:
-          - key: mysql
-            operator: In
-            values:
-            - "true"
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+            - key: mysql
+              operator: In
+              values:
+              - "true"
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
