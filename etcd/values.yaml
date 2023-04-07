@@ -450,10 +450,10 @@ affinity:
       podAffinityTerm:
         labelSelector:
           matchExpressions:
-          - key: etcd
+          - key: app.kubernetes.io/name
             operator: In
             values:
-            - "true"
+            - etcd
         topologyKey: kubernetes.io/hostname
 ## @param nodeSelector [object] Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/

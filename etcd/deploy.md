@@ -26,10 +26,10 @@ podAntiAffinity:
     - topologyKey: kubernetes.io/hostname
       labelSelector:
         matchExpressions: 
-          - key: etcd
+          - key: app.kubernetes.io/name
             operator: In 
             values: 
-            - "true"
+            - etcd
 ```
 
 pod反亲和性，尽量保证etcd的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将etcd调度到同一个node
@@ -40,10 +40,10 @@ podAntiAffinity:
     podAffinityTerm:
       labelSelector:
         matchExpressions:
-        - key: etcd
+        - key: app.kubernetes.io/name
           operator: In
           values:
-          - "true"
+          - etcd
       topologyKey: kubernetes.io/hostname
 ```
 
@@ -55,7 +55,7 @@ helm install etcd-cluster -f values.yaml bitnami/etcd -n etcd
 ```
 卸载etcd集群
 ```
-helm delete etcd-cluster  -n etcd
+helm delete etcd-cluster -n etcd
 ```
 通过values.yaml更新etcd集群
 ```
