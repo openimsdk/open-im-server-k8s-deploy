@@ -6,7 +6,7 @@ kubectl create ns kafka
 ```
 ### 2. 创建kafka storageClass
 ```
-kubectl apply -f ./sc.yaml;
+  kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml

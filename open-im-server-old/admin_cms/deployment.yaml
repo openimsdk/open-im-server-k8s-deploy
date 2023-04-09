@@ -39,4 +39,3 @@ spec:
 
   strategy: #更新策略
     type: RollingUpdate # 滚动更新
----

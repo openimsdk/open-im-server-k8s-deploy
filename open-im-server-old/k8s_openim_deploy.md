@@ -18,8 +18,8 @@
  ```  
 2. 修改config.yaml后在项目根目录创建configmap, config/usualConfig.yaml只需要挂载不需要修改配置
  ```  
-    kubectl -n openim create configmap openim-config --from-file=config/config.yaml
-    kubectl -n openim create configmap openim-usualconfig --from-file=config/usualConfig.yaml
+    kubectl -n openim create configmap openim-config --from-file=config.yaml
+    kubectl -n openim create configmap openim-usualconfig --from-file=usualConfig.yaml
  ```
     查看configmap
  ```
@@ -75,13 +75,12 @@ kubectl 启动所有deployment, services, ingress
     telnet sdk-server.openim.xxx.com {{your_ingress_port}}
     telnet api.openim.xxx.com {{your_ingress_port}}
     telnet cms-api.openim.xxx.com {{your_ingress_port}}
-    telnet demo.openim.xxx.com {{your_ingress_port}}
  ```
 
 #### openIM k8s更新
 1. 暂存配置文件，拉取代码
  ```
-    git stash push config/config.yaml
+    git stash push config.yaml
     git pull
  ```
 2. 合并配置文件, 解决冲突
@@ -90,7 +89,7 @@ kubectl 启动所有deployment, services, ingress
  ```
 3. 重新生成configmap
  ```
-    kubectl -n openim create configmap config --from-file=config/config.yaml
+    kubectl -n openim create configmap openim-config --from-file=config.yaml
  ```
 4.修改所有deployment文件的spec.template.spec.image 改为新版本后在/deploy_k8s下重新执行
  ```

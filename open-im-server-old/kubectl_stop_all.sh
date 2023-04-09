@@ -28,6 +28,5 @@ kubectl -n openim delete service api
 kubectl -n openim delete service cms-api
 kubectl -n openim delete service sdk-server
 kubectl -n openim delete service msg-gateway
-kubectl -n openim delete service demo
 
 echo done
