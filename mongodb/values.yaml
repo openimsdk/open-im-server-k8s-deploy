@@ -1051,17 +1051,17 @@ shardsvr:
     ## Note: shardsvr.dataNode.podAffinityPreset, shardsvr.dataNode.podAntiAffinityPreset, and shardsvr.dataNode.nodeAffinityPreset will be ignored when it's set
     ##
     affinity: 
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/component
-                operator: In
-                values:
-                - configsvr
-            topologyKey: kubernetes.io/hostname
+      # podAntiAffinity:
+      #   preferredDuringSchedulingIgnoredDuringExecution:
+      #   - weight: 100
+      #     podAffinityTerm:
+      #       labelSelector:
+      #         matchExpressions:
+      #         - key: app.kubernetes.io/component
+      #           operator: In
+      #           values:
+      #           - configsvr
+      #       topologyKey: kubernetes.io/hostname
     ## @param shardsvr.dataNode.nodeSelector Data nodes Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
     ## You can set dataNodeLoopId (or any other parameter) by setting the below code block under this 'nodeSelector' section:

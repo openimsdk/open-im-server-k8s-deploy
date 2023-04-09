@@ -113,15 +113,15 @@ podAntiAffinity:
 ### 3. 安装mongo分片集群
 安装mongo集群
 ```
-helm install mongo-shared-cluster -f values.yaml bitnami/mongodb-sharded -n mongo
+  helm install mongo-shared-cluster -f values.yaml bitnami/mongodb-sharded -n mongo
 ```
 
 卸载mongo集群
 ```
-helm delete mongo-shared-cluster -n mongo
+  helm delete mongo-shared-cluster -n mongo
 ```
 
 通过values.yaml更新mongo集群
 ```
-helm upgrade mongo-shared-cluster  bitnami/mongodb-sharded -f values.yaml -n mongo
+  helm upgrade mongo-shared-cluster  bitnami/mongodb-sharded -f values.yaml -n mongo
 ```
