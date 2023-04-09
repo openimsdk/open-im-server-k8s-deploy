@@ -110,6 +110,34 @@ podAntiAffinity:
       topologyKey: kubernetes.io/hostname
 ```
 
+#### 5. arbiter 非亲和性
+##### 1. 保证arbiter的pod不会被调度到同一个node上运行
+```
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    - topologyKey: kubernetes.io/hostname
+      labelSelector:
+        matchExpressions: 
+          - key: app.kubernetes.io/component
+            operator: In 
+            values: 
+            - arbiter
+```
+##### 2. 尽量保证arbiter的pod不会被调度到同一个node上运行，如果无法满足这个规则，也会将arbiter调度到同一个node
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+          - arbiter
+      topologyKey: kubernetes.io/hostname
+```
+
 ### 3. 安装mongo分片集群
 安装mongo集群
 ```

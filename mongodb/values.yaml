@@ -1052,26 +1052,26 @@ shardsvr:
     ## Note: shardsvr.dataNode.podAffinityPreset, shardsvr.dataNode.podAntiAffinityPreset, and shardsvr.dataNode.nodeAffinityPreset will be ignored when it's set
     ##
     affinity: 
-      # podAntiAffinity:
-      #   preferredDuringSchedulingIgnoredDuringExecution:
-      #   - weight: 100
-      #     podAffinityTerm:
-      #       labelSelector:
-      #         matchExpressions:
-      #         - key: shard
-      #           operator: In
-      #           values:
-      #           - "{{ .dataNodeLoopId }}"
-      #       topologyKey: kubernetes.io/hostname
       podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: kubernetes.io/hostname
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
             labelSelector:
-              matchExpressions: 
-                - key: shard
-                  operator: In 
-                  values: 
-                  - "{{ .dataNodeLoopId }}"
+              matchExpressions:
+              - key: shard
+                operator: In
+                values:
+                - "{{ .dataNodeLoopId }}"
+            topologyKey: kubernetes.io/hostname
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - topologyKey: kubernetes.io/hostname
+      #       labelSelector:
+      #         matchExpressions: 
+      #           - key: shard
+      #             operator: In 
+      #             values: 
+      #             - "{{ .dataNodeLoopId }}"
     ## @param shardsvr.dataNode.nodeSelector Data nodes Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
     ## You can set dataNodeLoopId (or any other parameter) by setting the below code block under this 'nodeSelector' section:
@@ -1148,8 +1148,7 @@ shardsvr:
     ## @param shardsvr.dataNode.podLabels Additional pod labels
     ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
     ##
-    podLabels: 
-      dataNodeId: "{{ .dataNodeLoopId }}"
+    podLabels: {}
     ## @param shardsvr.dataNode.extraVolumes Array to add extra volumes. Requires setting `extraVolumeMounts`
     ##
     extraVolumes: []
@@ -1332,7 +1331,7 @@ shardsvr:
   arbiter:
     ## @param shardsvr.arbiter.replicaCount Number of arbiters in each shard replica set (the first node will be primary)
     ##
-    replicaCount: 0
+    replicaCount: 3
     ## @param shardsvr.arbiter.hostAliases Deployment pod host aliases
     ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
     ##
@@ -1391,7 +1390,18 @@ shardsvr:
     
     ## Note: shardsvr.arbiter.podAffinityPreset, shardsvr.arbiter.podAntiAffinityPreset, and shardsvr.arbiter.nodeAffinityPreset will be ignored when it's set
     ##
-    affinity: {} 
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                - arbiter
+            topologyKey: kubernetes.io/hostname
     
     ## @param shardsvr.arbiter.nodeSelector Arbiter's Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/  -shard -shard-mongodb

@@ -18,6 +18,20 @@ values.yaml常用参数说明
 | global.password| openIMExamplePwd |redis密码 |
 | global.storageClass| redis-data-sc |存储类名，需要和sc.yaml中storageClass保持一致|
 
+```
+podAntiAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/name
+          operator: In
+          values:
+          - redis-cluster
+      topologyKey: kubernetes.io/hostname
+
+```
 
 ### 3. 安装redis集群
 安装redis集群

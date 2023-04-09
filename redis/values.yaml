@@ -607,26 +607,26 @@ redis:
   ## Note: redis.podAffinityPreset, redis.podAntiAffinityPreset, and redis.nodeAffinityPreset will be ignored when it's set
   ##
   affinity: 
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - topologyKey: kubernetes.io/hostname
-          labelSelector:
-            matchExpressions: 
-              - key: app.kubernetes.io/name
-                operator: In 
-                values: 
-                - redis-cluster
     # podAntiAffinity:
-    #   preferredDuringSchedulingIgnoredDuringExecution:
-    #   - weight: 100
-    #     podAffinityTerm:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     - topologyKey: kubernetes.io/hostname
     #       labelSelector:
-    #         matchExpressions:
-    #         - key: app.kubernetes.io/name
-    #           operator: In
-    #           values:
-    #           - redis-cluster
-    #       topologyKey: kubernetes.io/hostname
+    #         matchExpressions: 
+    #           - key: app.kubernetes.io/name
+    #             operator: In 
+    #             values: 
+    #             - redis-cluster
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - redis-cluster 
+          topologyKey: kubernetes.io/hostname
 
   ## @param redis.nodeSelector Node labels for Redis&reg; pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -742,15 +742,15 @@ updateJob:
     #           - redis-cluster
     #       topologyKey: "kubernetes.io/hostname"
     #     weight: 100
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: role
-                operator: In
-                values:
-                  - redis-cluster
-          topologyKey: "kubernetes.io/hostname"
+    # podAntiAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     - labelSelector:
+    #         matchExpressions:
+    #           - key: role
+    #             operator: In
+    #             values:
+    #               - redis-cluster
+    #       topologyKey: "kubernetes.io/hostname"
 
   ## @param updateJob.nodeSelector Node labels for update job pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
