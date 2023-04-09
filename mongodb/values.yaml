@@ -394,11 +394,12 @@ configsvr:
         podAffinityTerm:
           labelSelector:
             matchExpressions:
-            - key: app.kubernetes.io/component
+            - key: configSvr
               operator: In
               values:
-              - configsvr
+              - "true"
           topologyKey: kubernetes.io/hostname
+          
   ## @param configsvr.nodeSelector Config Server Node labels for pod assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
