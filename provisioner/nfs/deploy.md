@@ -10,8 +10,8 @@ helm repo update
 
 helm pull provisioner
 ```
- helm pull nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
- tar -zxvf nfs-subdir-external-provisioner-4.0.18.tgz
+helm pull nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+tar -zxvf nfs-subdir-external-provisioner-4.0.18.tgz
 ```
 
 进入目录, 修改values.yaml, 仓库修改为阿里云镜像

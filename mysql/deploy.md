@@ -2,11 +2,11 @@
 ## 部署步骤
 ### 1. 创建namespace
 ```
-kubectl create namespace mysql
+  kubectl create namespace mysql
 ```
 ### 2. 创建mysql storageClass
 ```
-kubectl apply -f ./sc.yaml;
+  kubectl apply -f ./sc.yaml;
 ```
 
 ### 3. 修改values.yaml
@@ -52,15 +52,15 @@ podAntiAffinity:
 ### 3. 安装mysql集群
 安装mysql集群
 ```
-helm install mysql-cluster -f values.yaml bitnami/mysql -n mysql
+  helm install mysql-cluster -f values.yaml bitnami/mysql -n mysql
 ```
 
 卸载mysql集群
 ```
-helm delete mysql-cluster  -n mysql
+  helm delete mysql-cluster -n mysql
 ```
 
 通过values.yaml更新mysql集群
 ```
-helm upgrade mysql-cluster  bitnami/mysql -f values.yaml -n mysql
+  helm upgrade mysql-cluster  bitnami/mysql -f values.yaml -n mysql
 ```
