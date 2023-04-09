@@ -394,10 +394,10 @@ configsvr:
         podAffinityTerm:
           labelSelector:
             matchExpressions:
-            - key: configSvr
+            - key: app.kubernetes.io/component
               operator: In
               values:
-              - "true"
+              - configsvr
           topologyKey: kubernetes.io/hostname
           
   ## @param configsvr.nodeSelector Config Server Node labels for pod assignment
@@ -1053,16 +1053,16 @@ shardsvr:
     ##
     affinity: 
       # podAntiAffinity:
-      #   preferredDuringSchedulingIgnoredDuringExecution:
-      #   - weight: 100
-      #     podAffinityTerm:
-      #       labelSelector:
-      #         matchExpressions:
-      #         - key: app.kubernetes.io/component
-      #           operator: In
-      #           values:
-      #           - configsvr
-      #       topologyKey: kubernetes.io/hostname
+        # preferredDuringSchedulingIgnoredDuringExecution:
+        # - weight: 100
+        #   podAffinityTerm:
+        #     labelSelector:
+        #       matchExpressions:
+        #       - key: app.kubernetes.io/component
+        #         operator: In
+        #         values:
+        #         - configsvr
+        #     topologyKey: kubernetes.io/hostname
     ## @param shardsvr.dataNode.nodeSelector Data nodes Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
     ## You can set dataNodeLoopId (or any other parameter) by setting the below code block under this 'nodeSelector' section:
