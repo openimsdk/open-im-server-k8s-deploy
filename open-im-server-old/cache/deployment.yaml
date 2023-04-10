@@ -6,19 +6,20 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: cache # 选择这个指定标签执行
-  replicas: 1 # 运行pod数量
+      app: cache 
+  replicas: 3 
   template:
     metadata:
       labels:
-        app: cache # 标签
+        app: cache
     spec:
       containers:
       - name: cache
         image: openim/cache:v2.3.8
-        # imagePullPolicy: Always
+        imagePullPolicy: Always
         ports:
         - containerPort: 10240
+          name: cache-port
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config
@@ -28,6 +29,13 @@ spec:
             value: "/Open-IM-Server"
           - name: USUAL_CONFIG_NAME
             value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: 300m
+          limits:
+            memory: "1024Mi"
+            cpu: 600m
       volumes:
         - name: config
           projected:
@@ -36,5 +44,32 @@ spec:
                 name: openim-config
             - configMap:
                 name: openim-usualconfig
-  strategy: #更新策略
-    type: RollingUpdate # 滚动更新
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - cache
+              topologyKey: kubernetes.io/hostname
+  strategy: 
+    type: RollingUpdate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache
+spec:
+  ports:
+    - name: cache-svc-port
+      protocol: TCP
+      port: 10240
+      targetPort: cache-port
+  selector:
+    app: cache 
+  type: ClusterIP  

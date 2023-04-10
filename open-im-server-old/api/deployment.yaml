@@ -30,12 +30,12 @@ spec:
           - name: USUAL_CONFIG_NAME
             value: "/Open-IM-Server"
         resources:
-            requests:
-              memory: "512Mi"
-              cpu: 300m
-            limits:
-              memory: "1024Mi"
-              cpu: 600m
+          requests:
+            memory: "512Mi"
+            cpu: 300m
+          limits:
+            memory: "1024Mi"
+            cpu: 600m
       volumes:
         - name: config
           projected:

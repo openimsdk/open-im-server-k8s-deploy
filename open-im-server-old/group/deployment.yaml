@@ -6,19 +6,20 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: group # 选择这个指定标签执行
-  replicas: 1 # 运行pod数量
+      app: group 
+  replicas: 3
   template:
     metadata:
       labels:
-        app: group # 标签
+        app: group 
     spec:
       containers:
       - name: group
         image: openim/group:v2.3.8
-        # imagePullPolicy: Always
+        imagePullPolicy: Always
         ports:
         - containerPort: 10150
+          name: group-port
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config
@@ -28,6 +29,13 @@ spec:
             value: "/Open-IM-Server"
           - name: USUAL_CONFIG_NAME
             value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: 150m
+          limits:
+            memory: "512Mi"
+            cpu: 300m
       volumes:
         - name: config
           projected:
@@ -36,5 +44,32 @@ spec:
                 name: openim-config
             - configMap:
                 name: openim-usualconfig
-  strategy: #更新策略
-    type: RollingUpdate # 滚动更新
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - group
+              topologyKey: kubernetes.io/hostname
+  strategy:
+    type: RollingUpdate 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: group
+spec:
+  ports:
+    - name: group-svc-port
+      protocol: TCP
+      port: 10150
+      targetPort: group-port
+  selector:
+    app: group
+  type: ClusterIP  

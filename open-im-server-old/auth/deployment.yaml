@@ -30,12 +30,12 @@ spec:
           - name: USUAL_CONFIG_NAME
             value: "/Open-IM-Server"
         resources:
-            requests:
-              memory: "256Mi"
-              cpu: 150m
-            limits:
-              memory: "512Mi"
-              cpu: 300m
+          requests:
+            memory: "256Mi"
+            cpu: 150m
+          limits:
+            memory: "512Mi"
+            cpu: 300m
       volumes:
         - name: config
           projected:
@@ -62,7 +62,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: auth
 spec:
   ports:
     - name: auth-svc-port
