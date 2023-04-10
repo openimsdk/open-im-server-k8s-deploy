@@ -23,9 +23,4 @@ for i in ${service[*]}
 do
     kubectl -n openim delete deployment "${i}-deployment"
 done
-
-kubectl -n openim delete service api
-kubectl -n openim delete service cms-api
-kubectl -n openim delete service msg-gateway
-
 echo done
