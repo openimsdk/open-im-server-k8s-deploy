@@ -19,7 +19,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 10230
-              name: conversation-port
+              name: con-port
           volumeMounts:
             - name: config
               mountPath: /Open-IM-Server/config
@@ -68,7 +68,7 @@ spec:
     - name: conversation-svc-port
       protocol: TCP
       port: 10230
-      targetPort: conversation-port
+      targetPort: con-port
   selector:
     app: conversation
   type: ClusterIP  

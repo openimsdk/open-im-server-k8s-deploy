@@ -18,8 +18,9 @@
  ```  
 2. 修改config.yaml后在项目根目录创建configmap, config/usualConfig.yaml只需要挂载不需要修改配置
  ```  
-    kubectl -n openim create configmap openim-config --from-file=config.yaml
-    kubectl -n openim create configmap openim-usualconfig --from-file=usualConfig.yaml
+    kubectl -n openim create configmap openim-config --from-file=config/config.yaml;
+    kubectl -n openim create configmap openim-usualconfig --from-file=usualConfig.yaml;
+    kubectl apply -f limitRange.yaml -n openim;
  ```
     查看configmap
  ```
@@ -27,19 +28,6 @@
  ``` 
 
 ### 3(可选). 修改每个deployment.yml
-  每个rpc的deployment在Open-IM-SERVER根目录deploy_k8s下
-  给需要调度的node打上标签
- ```
-    kubectl get nodes
-        kubectl label node k8s-node1 role=openIMworker
- ```
-  在deployment的spec.template.spec加上
- ```
-    nodeSelector:
-     role: openIMworker
- ``` 
-   创建资源清单时添加上nodeSelector属性对应即可,
-   修改每种服务数量，建议至少每种2个rpc。
    如果修改了config/config.yaml某些配置比如端口，同时需要修改对应deployment端口和ingress端口
 
 
@@ -55,7 +43,7 @@
  ```
     ./kubectl_start.sh
  ``` 
-3. 启动k8s ingress
+3. 启动k8s ingress, 需要安装ingress controller如ingress-nginx
  ```
     kubectl -n openim apply -f ingress.yaml
  ```
@@ -89,6 +77,7 @@ kubectl 启动所有deployment, services, ingress
  ```
 3. 重新生成configmap
  ```
+    kubectl -n openim delete configmap openim-config
     kubectl -n openim create configmap openim-config --from-file=config.yaml
  ```
 4.修改所有deployment文件的spec.template.spec.image 改为新版本后在/deploy_k8s下重新执行
