@@ -19,6 +19,7 @@ spec:
           imagePullPolicy: Always 
           ports:
             - containerPort: 10200
+              name: admin-cms-rpc-port
           volumeMounts:
             - name: config
               mountPath: /Open-IM-Server/config
@@ -64,10 +65,10 @@ metadata:
   name: admin-cms-service
 spec:
   ports:
-    - name: admin-cms-rpc-port
+    - name: admin-cms-svc-port
       protocol: TCP
       port: 10200
-      targetPort: 10200
+      targetPort: admin-cms-rpc-port
   selector:
     app: admin-cms 
   type: ClusterIP  

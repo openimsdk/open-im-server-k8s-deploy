@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-        app: api # 标签
+        app: api 
     spec:
       containers:
       - name: api
@@ -19,6 +19,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 10002
+          name: api-port
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config
@@ -44,28 +45,19 @@ spec:
             - configMap:
                 name: openim-usualconfig
       affinity:
-        # podAntiAffinity:
-        #   preferredDuringSchedulingIgnoredDuringExecution:
-        #   - weight: 100
-        #     podAffinityTerm:
-        #       labelSelector:
-        #         matchExpressions:
-        #         - key: app
-        #           operator: In
-        #           values:
-        #           - api
-        #       topologyKey: kubernetes.io/hostname
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - topologyKey: kubernetes.io/hostname
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
               labelSelector:
-                matchExpressions: 
-                  - key: app
-                    operator: In 
-                    values: 
-                    - api
-  strategy: #更新策略
-    type: RollingUpdate # 滚动更新
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - api
+              topologyKey: kubernetes.io/hostname
+  strategy: 
+    type: RollingUpdate
 ---
 apiVersion: v1
 kind: Service
@@ -73,10 +65,10 @@ metadata:
   name: api
 spec:
   ports:
-    - name: api-port
+    - name: api-svc-port
       protocol: TCP
       port: 10002
-      targetPort: 10002
+      targetPort: api-port
   selector:
     app: api
   type: ClusterIP  
