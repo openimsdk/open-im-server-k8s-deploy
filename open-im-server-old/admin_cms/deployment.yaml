@@ -56,5 +56,19 @@ spec:
                 - admin-cms 
             topologyKey: kubernetes.io/hostname
 
-  strategy: #更新策略
-    type: RollingUpdate # 滚动更新
+  strategy: 
+    type: RollingUpdate 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-cms-service
+spec:
+  ports:
+    - name: admin-cms-port
+      protocol: TCP
+      port: 10200
+      targetPort: 10200
+  selector:
+    app: admin-cms 
+  type: ClusterIP  
