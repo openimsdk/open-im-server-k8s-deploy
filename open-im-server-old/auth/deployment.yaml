@@ -65,10 +65,10 @@ metadata:
   name: auth-service
 spec:
   ports:
-    - name: auth-rpc-svc-port
+    - name: auth-svc-port
       protocol: TCP
       port: 10160
-      targetPort: auth-rpc-port
+      targetPort: auth-port
   selector:
     app: auth 
   type: ClusterIP  
