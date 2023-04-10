@@ -55,7 +55,6 @@ spec:
                 values:
                 - admin-cms 
             topologyKey: kubernetes.io/hostname
-
   strategy: 
     type: RollingUpdate 
 ---
@@ -65,7 +64,7 @@ metadata:
   name: admin-cms-service
 spec:
   ports:
-    - name: admin-cms-port
+    - name: admin-cms-rpc-port
       protocol: TCP
       port: 10200
       targetPort: 10200
