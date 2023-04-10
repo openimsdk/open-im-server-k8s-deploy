@@ -6,17 +6,18 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: admin-cms # 选择这个指定标签执行
-  replicas: 3 # 运行pod数量
+      app: admin-cms 
+  replicas: 3
   template:
     metadata:
       labels:
-        app: admin-cms # 标签
+        app: admin-cms 
+        limitType: low
     spec:
       containers:
         - name: admin-cms
           image: openim/admin_cms:v2.3.8
-          # imagePullPolicy: Always #每次启动都重新拉取镜像
+          imagePullPolicy: Always 
           ports:
             - containerPort: 10200
           volumeMounts:
@@ -28,6 +29,13 @@ spec:
               value: "/Open-IM-Server"
             - name: USUAL_CONFIG_NAME
               value: "/Open-IM-Server"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: 150m
+            limits:
+              memory: "512Mi"
+              cpu: 300m
       volumes:
         - name: config
           projected:
@@ -36,6 +44,17 @@ spec:
                 name: openim-config
             - configMap:
                 name: openim-usualconfig
+      affinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - admin-cms 
+            topologyKey: kubernetes.io/hostname
 
   strategy: #更新策略
     type: RollingUpdate # 滚动更新
