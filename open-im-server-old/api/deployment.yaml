@@ -6,8 +6,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: api # 选择这个指定标签执行
-  replicas: 3 # 运行pod数量
+      app: api
+  replicas: 3 
   template:
     metadata:
       labels:
@@ -16,7 +16,7 @@ spec:
       containers:
       - name: api
         image: openim/api:v2.3.8
-        # imagePullPolicy: Always
+        imagePullPolicy: Always
         ports:
         - containerPort: 10002
         volumeMounts:
@@ -28,6 +28,13 @@ spec:
             value: "/Open-IM-Server"
           - name: USUAL_CONFIG_NAME
             value: "/Open-IM-Server"
+        resources:
+            requests:
+              memory: "512Mi"
+              cpu: 300m
+            limits:
+              memory: "1024Mi"
+              cpu: 600m
       volumes:
         - name: config
           projected:
@@ -36,6 +43,27 @@ spec:
                 name: openim-config
             - configMap:
                 name: openim-usualconfig
+      affinity:
+        # podAntiAffinity:
+        #   preferredDuringSchedulingIgnoredDuringExecution:
+        #   - weight: 100
+        #     podAffinityTerm:
+        #       labelSelector:
+        #         matchExpressions:
+        #         - key: app
+        #           operator: In
+        #           values:
+        #           - api
+        #       topologyKey: kubernetes.io/hostname
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions: 
+                  - key: app
+                    operator: In 
+                    values: 
+                    - api
   strategy: #更新策略
     type: RollingUpdate # 滚动更新
 ---
@@ -51,4 +79,4 @@ spec:
       targetPort: 10002
   selector:
     app: api
-  type: NodePort  
+  type: ClusterIP  
