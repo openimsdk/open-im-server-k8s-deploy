@@ -45,16 +45,17 @@ spec:
             - configMap:
                 name: openim-usualconfig
       affinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - admin-cms 
-            topologyKey: kubernetes.io/hostname
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - admin-cms 
+              topologyKey: kubernetes.io/hostname
   strategy: 
     type: RollingUpdate 
 ---
