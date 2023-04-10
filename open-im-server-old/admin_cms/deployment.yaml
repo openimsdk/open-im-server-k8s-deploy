@@ -12,7 +12,6 @@ spec:
     metadata:
       labels:
         app: admin-cms 
-        limitType: low
     spec:
       containers:
         - name: admin-cms
