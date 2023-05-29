@@ -16,7 +16,7 @@
  ```  
     kubectl create namespace openim
  ```  
-2. 修改config.yaml后在项目根目录创建configmap, config/usualConfig.yaml只需要挂载不需要修改配置
+2. 修改config.yaml后在项目根目录创建configmap, config/notification.yaml只需要挂载不需要修改配置
  ```  
     kubectl -n openim create configmap openim-config --from-file=config/config.yaml;
     kubectl -n openim create configmap openim-notification-config --from-file=config/notification.yaml;
