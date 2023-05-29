@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deployment
+spec:
+  selector:
+    matchLabels:
+      app: user 
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+      - name: user
+        image: openim/user:errcode_alpha
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 10110
+          name: user-port
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10170"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10170"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        volumeMounts:
+          - name: config
+            mountPath: /Open-IM-Server/config
+            readOnly: true
+        env:
+          - name: CONFIG_NAME
+            value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: 150m
+          limits:
+            memory: "512Mi"
+            cpu: 300m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-config
+            - configMap:
+                name: openim-usualconfig
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - user
+              topologyKey: kubernetes.io/hostname
+  strategy: 
+    type: RollingUpdate 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+spec:
+  ports:
+    - name: user-svc-port
+      protocol: TCP
+      port: 10110
+      targetPort: user-port
+  selector:
+    app: user
+  type: ClusterIP  

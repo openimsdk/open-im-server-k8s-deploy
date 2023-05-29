@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversation-deployment
+spec:
+  selector:
+    matchLabels:
+      app: conversation
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: conversation
+    spec:
+      containers:
+        - name: conversation
+          image: openim/conversation:errcode_beta
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10230
+              name: con-port
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10230"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:10230"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /Open-IM-Server/config
+              readOnly: true
+          env:
+            - name: CONFIG_NAME
+              value: "/Open-IM-Server"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: 150m
+            limits:
+              memory: "512Mi"
+              cpu: 300m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-config
+            - configMap:
+                name: openim-notification-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - conversation
+              topologyKey: kubernetes.io/hostname
+  strategy:
+    type: RollingUpdate 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversation
+spec:
+  ports:
+    - name: conversation-svc-port
+      protocol: TCP
+      port: 10230
+      targetPort: con-port
+  selector:
+    app: conversation
+  type: ClusterIP  

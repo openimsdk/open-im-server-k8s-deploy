@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  selector:
+    matchLabels:
+      app: auth 
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: openim/auth::errcode_beta
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 10160
+          name: auth-rpc-port
+        volumeMounts:
+          - name: config
+            mountPath: /Open-IM-Server/config
+            readOnly: true
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10160"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10160"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        env:
+          - name: CONFIG_NAME
+            value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: 150m
+          limits:
+            memory: "512Mi"
+            cpu: 300m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-config
+            - configMap:
+                name: openim-notification-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - auth
+              topologyKey: kubernetes.io/hostname
+  strategy:
+    type: RollingUpdate 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+spec:
+  ports:
+    - name: auth-svc-port
+      protocol: TCP
+      port: 10160
+      targetPort: auth-port
+  selector:
+    app: auth 
+  type: ClusterIP  

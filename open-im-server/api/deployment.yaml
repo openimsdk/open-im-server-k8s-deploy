@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: api 
+    spec:
+      containers:
+      - name: api
+        image: openim/api:errcode_beta
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 10002
+          name: api-port
+        volumeMounts:
+          - name: config
+            mountPath: /Open-IM-Server/config
+            readOnly: true
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 10002
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 10002
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        env:
+          - name: CONFIG_NAME
+            value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: 300m
+          limits:
+            memory: "1024Mi"
+            cpu: 600m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-config
+            - configMap:
+                name: openim-notification-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - api
+              topologyKey: kubernetes.io/hostname
+  strategy: 
+    type: RollingUpdate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  ports:
+    - name: api-svc-port
+      protocol: TCP
+      port: 10002
+      targetPort: api-port
+  selector:
+    app: api
+  type: ClusterIP  

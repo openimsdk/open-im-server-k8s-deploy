@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: group-deployment
+spec:
+  selector:
+    matchLabels:
+      app: group 
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: group 
+    spec:
+      containers:
+      - name: group
+        image: openim/group:errcode_alpha
+        imagePullPolicy: Always
+        command: ["./main"]
+        args: ["--port", "10150"]
+        ports:
+        - containerPort: 10150
+          name: group-port
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10150"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10150"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        volumeMounts:
+          - name: config
+            mountPath: /Open-IM-Server/config
+            readOnly: true
+        env:
+          - name: CONFIG_NAME
+            value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: 150m
+          limits:
+            memory: "512Mi"
+            cpu: 300m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-config
+            - configMap:
+                name: openim-notification-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - group
+              topologyKey: kubernetes.io/hostname
+  strategy:
+    type: RollingUpdate 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: group
+spec:
+  ports:
+    - name: group-svc-port
+      protocol: TCP
+      port: 10150
+      targetPort: group-port
+  selector:
+    app: group
+  type: ClusterIP  

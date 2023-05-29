@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: push-deployment
+spec:
+  selector:
+    matchLabels:
+      app: push 
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: push
+    spec:
+      containers:
+      - name: push
+        image: openim/push:errcode_alpha
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 10170
+          name: push-port
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10170"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:10170"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        volumeMounts:
+          - name: config
+            mountPath: /Open-IM-Server/config
+            readOnly: true
+        env:
+          - name: CONFIG_NAME
+            value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: 300m
+          limits:
+            memory: "1024Mi"
+            cpu: 600m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-config
+            - configMap:
+                name: openim-notification-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - push
+              topologyKey: kubernetes.io/hostname
+  strategy: 
+    type: RollingUpdate 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: push
+spec:
+  ports:
+    - name: push-svc-port
+      protocol: TCP
+      port: 10170
+      targetPort: push-port
+  selector:
+    app: push
+  type: ClusterIP  
