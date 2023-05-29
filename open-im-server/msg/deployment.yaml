@@ -22,6 +22,8 @@ spec:
         ports:
         - containerPort: 10130
           name: msg-port
+        - containerPort: 20130
+          name: msg-prome-port
         readinessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:10130"]

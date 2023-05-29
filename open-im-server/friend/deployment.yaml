@@ -22,6 +22,8 @@ spec:
         ports:
         - containerPort: 10120
           name: friend-port
+        - containerPort: 20120
+          name: friend-prome-port  
         readinessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:10120"]

@@ -22,6 +22,8 @@ spec:
         ports:
         - containerPort: 10170
           name: push-port
+        - containerPort: 20170
+          name: push-prome-port
         readinessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:10170"]

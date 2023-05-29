@@ -22,6 +22,8 @@ spec:
           ports:
             - containerPort: 10230
               name: con-port
+            - containerPort: 20230
+              name: con-prome-port
           readinessProbe:
             exec:
               command: ["/bin/grpc_health_probe", "-addr=:10230"]

@@ -19,6 +19,9 @@ spec:
         command: ["./main"]
         args: ["--prometheus_port", "21400"]
         imagePullPolicy: Always
+        ports:
+        - name: tran-prome-port
+          containerPort: 21400
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config

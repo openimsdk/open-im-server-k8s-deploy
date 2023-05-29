@@ -24,6 +24,8 @@ spec:
           containerPort: 10140
         - name: ws-port
           containerPort: 10001
+        - name: mgw-prome-port
+          containerPort: 20240
         readinessProbe:
           tcpSocket:
             port: 10001

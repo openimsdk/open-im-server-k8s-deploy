@@ -22,6 +22,8 @@ spec:
         ports:
         - containerPort: 10150
           name: group-port
+        - containerPort: 20150
+          name: group-prome-port
         readinessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:10150"]
