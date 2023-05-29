@@ -17,6 +17,8 @@ spec:
       - name: push
         image: openim/push:errcode_alpha
         imagePullPolicy: Always
+        command: ["./main"]
+        args: ["--port", "10170", "--prometheus_port", "20170"]
         ports:
         - containerPort: 10170
           name: push-port

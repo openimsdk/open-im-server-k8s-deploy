@@ -17,6 +17,8 @@ spec:
       - name: auth
         image: openim/auth::errcode_beta
         imagePullPolicy: Always
+        command: ["./main"]
+        args: ["--port", "10160"]
         ports:
         - containerPort: 10160
           name: auth-rpc-port

@@ -17,17 +17,19 @@ spec:
       - name: user
         image: openim/user:errcode_alpha
         imagePullPolicy: Always
+        command: ["./main"]
+        args: ["--port", "10110"]
         ports:
         - containerPort: 10110
           name: user-port
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10170"]
+            command: ["/bin/grpc_health_probe", "-addr=:10110"]
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10170"]
+            command: ["/bin/grpc_health_probe", "-addr=:10110"]
           initialDelaySeconds: 10
           periodSeconds: 10
         volumeMounts:

@@ -16,6 +16,8 @@ spec:
       containers:
       - name: msg-transfer
         image: openim/msg_transfer:errcode_alpha
+        command: ["./main"]
+        args: ["--prometheus_port", "21400"]
         imagePullPolicy: Always
         volumeMounts:
           - name: config

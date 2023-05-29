@@ -17,6 +17,8 @@ spec:
         - name: conversation
           image: openim/conversation:errcode_beta
           imagePullPolicy: Always
+          command: ["./main"]
+          args: ["--port", "10230", "--prometheus_port","20230"]
           ports:
             - containerPort: 10230
               name: con-port

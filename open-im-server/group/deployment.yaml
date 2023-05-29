@@ -18,7 +18,7 @@ spec:
         image: openim/group:errcode_alpha
         imagePullPolicy: Always
         command: ["./main"]
-        args: ["--port", "10150"]
+        args: ["--port", "10150", "--prometheus_port","20150"]
         ports:
         - containerPort: 10150
           name: group-port

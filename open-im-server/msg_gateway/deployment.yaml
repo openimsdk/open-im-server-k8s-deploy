@@ -16,6 +16,8 @@ spec:
       containers:
       - name: msg-gateway
         image: openim/msg_gateway:errcode_alpha
+        command: ["./main"]
+        args: ["--port", "10140", "--ws_port", "10001", "--prometheus_port", "20240"]
         imagePullPolicy: Always
         ports:
         - name: rpc-port
