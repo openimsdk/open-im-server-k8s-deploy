@@ -43,9 +43,6 @@ services:
     snapshot: true
     creation: 6h
     retention: 24h
-  kubelet:
-    extra_args:
-      image-store-path: /data/imgs/
 
 ingress:
   provider: "nginx"

@@ -85,5 +85,5 @@ sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
 
 ## 常见问题
 清理脚本: clear_env.sh，worder和master执行，
-删除cluster.rkestate，kube_config_cluster.yaml缓存，
+删除cluster.rkestate，kube_config_cluster.yaml缓存，/etc/kubernetes/*目录
 ssh密钥配置问题。
