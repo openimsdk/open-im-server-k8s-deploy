@@ -6,6 +6,6 @@ provisioner: cluster.local/nfs-subdir-external-provisioner
 reclaimPolicy: Retain
 allowVolumeExpansion: true
 parameters:
-  server: 192.168.1.243
-  path: "/k8s/storage/nfs/mongo"
+  server: 10.3.3.145
+  path: "/shares"
 volumeBindingMode: Immediate
