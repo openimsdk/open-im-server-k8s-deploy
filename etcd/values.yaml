@@ -100,7 +100,7 @@ auth:
   rbac:
     ## @param auth.rbac.create Switch to enable RBAC authentication
     ##
-    create: true
+    create: false
     ## @param auth.rbac.allowNoneAuthentication Allow to use etcd without configuring RBAC authentication
     ##
     allowNoneAuthentication: true
@@ -119,7 +119,7 @@ auth:
   token:
     ## @param auth.token.enabled Enables token authentication
     ##
-    enabled: true
+    enabled: false
     ## @param auth.token.type Authentication token type. Allowed values: 'simple' or 'jwt'
     ## ref: https://etcd.io/docs/latest/op-guide/configuration/#--auth-token
     ##

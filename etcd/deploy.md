@@ -14,7 +14,6 @@ kubectl apply -f ./sc.yaml;
 |参数名   | 参数值|  参数说明    |
 |  ----  | ----  | --- |
 | replicaCount| 3 | etcd实例数量|
-| auth.rootPassword| openIMExamplePwd |etcd密码， 用户为root用户，可不填 |
 | global.storageClass| etcd-data-sc| 存储类名，需要和sc.yaml中storageClass保持一致|
 | affinity | 示例如下 | 亲和性配置|
 
