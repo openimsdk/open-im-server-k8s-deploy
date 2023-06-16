@@ -36,7 +36,7 @@ podAntiAffinity:
 ### 3. 安装redis集群
 安装redis集群
 ```
-helm install redis-cluster5 -f values.yaml bitnami/redis-cluster -n redis
+helm install redis-cluster -f values.yaml bitnami/redis-cluster -n redis
 ```
 卸载redis集群
 ```
