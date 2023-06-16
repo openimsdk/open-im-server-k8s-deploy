@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: msg
-        image: openim/msg:errcode_alpha
-        command: ["./main"]
+        image: openim/msg:errcode
+        command: ["./open_im_msg"]
         args: ["--port", "10130", "--prometheus_port","20130"]
         imagePullPolicy: Always
         ports:
