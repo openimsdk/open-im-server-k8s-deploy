@@ -53,7 +53,7 @@ spec:
             - configMap:
                 name: openim-config
             - configMap:
-                name: openim-usualconfig
+                name: openim-notification-config
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
