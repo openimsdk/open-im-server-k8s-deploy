@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: user
-        image: openim/user:errcode_alpha
+        image: openim/user:errcode
         imagePullPolicy: Always
-        command: ["./main"]
+        command: ["./open_im_user"]
         args: ["--port", "10110"]
         ports:
         - containerPort: 10110

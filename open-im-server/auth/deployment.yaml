@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: auth
-        image: openim/auth::errcode_beta
+        image: openim/auth:errcode
         imagePullPolicy: Always
-        command: ["./main"]
+        command: ["./open_im_auth"]
         args: ["--port", "10160"]
         ports:
         - containerPort: 10160

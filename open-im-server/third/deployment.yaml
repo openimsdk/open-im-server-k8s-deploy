@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: third
-        image: openim/third:errcode_alpha
+        image: openim/third:errcode
         imagePullPolicy: Always
-        command: ["./main"]
+        command: ["./open_im_third"]
         args: ["--port", "10200", "--prometheus_port", "20170"]
         ports:
         - containerPort: 10200

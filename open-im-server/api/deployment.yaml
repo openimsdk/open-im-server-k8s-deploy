@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: api
-        command: ["./main"]
+        command: ["./open_im_api"]
         args: ["--port", "10002"]
-        image: openim/api:errcode_beta
+        image: openim/api:errcode
         imagePullPolicy: Always
         ports:
         - containerPort: 10002

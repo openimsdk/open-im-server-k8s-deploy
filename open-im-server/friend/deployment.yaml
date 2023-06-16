@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: friend
-        image: openim/friend:v2.3.8
+        image: openim/friend:errcode
         imagePullPolicy: Always
-        command: ["./main"]
+        command: ["./open_im_friend"]
         args: ["--port", "10120", "--prometheus_port","20120"]
         ports:
         - containerPort: 10120
