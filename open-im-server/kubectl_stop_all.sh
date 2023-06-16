@@ -3,16 +3,13 @@
 service=(
   #api service file
   api
-  cms-api
   #rpc service file
   user
   friend
   group
   auth
-  admin-cms
-  office
   conversation
-  cache
+  third
   msg-gateway
   msg-transfer
   msg
