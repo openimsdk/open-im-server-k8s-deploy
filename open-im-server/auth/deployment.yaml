@@ -26,16 +26,16 @@ spec:
           - name: config
             mountPath: /Open-IM-Server/config
             readOnly: true
-        readinessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10160"]
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10160"]
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10160"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10160"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         env:
           - name: CONFIG_NAME
             value: "/Open-IM-Server"

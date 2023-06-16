@@ -26,20 +26,20 @@ spec:
           containerPort: 10001
         - name: mgw-prome-port
           containerPort: 20240
-        readinessProbe:
-          tcpSocket:
-            port: 10001
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10140"]
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 10001
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10140"]
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   tcpSocket:
+        #     port: 10001
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10140"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 10001
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10140"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config

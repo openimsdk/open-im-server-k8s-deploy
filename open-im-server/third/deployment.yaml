@@ -22,16 +22,16 @@ spec:
         ports:
         - containerPort: 10200
           name: third-port
-        readinessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10200"]
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10200"]
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10200"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10200"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config

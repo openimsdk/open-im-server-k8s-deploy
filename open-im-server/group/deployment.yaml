@@ -24,16 +24,16 @@ spec:
           name: group-port
         - containerPort: 20150
           name: group-prome-port
-        readinessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10150"]
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10150"]
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10150"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10150"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config

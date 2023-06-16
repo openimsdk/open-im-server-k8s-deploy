@@ -24,16 +24,16 @@ spec:
               name: con-port
             - containerPort: 20230
               name: con-prome-port
-          readinessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10230"]
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            exec:
-              command: ["/bin/grpc_health_probe", "-addr=:10230"]
-            initialDelaySeconds: 10
-            periodSeconds: 10
+          # readinessProbe:
+          #   exec:
+          #     command: ["/bin/grpc_health_probe", "-addr=:10230"]
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   exec:
+          #     command: ["/bin/grpc_health_probe", "-addr=:10230"]
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
           volumeMounts:
             - name: config
               mountPath: /Open-IM-Server/config

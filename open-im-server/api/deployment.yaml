@@ -26,18 +26,18 @@ spec:
           - name: config
             mountPath: /Open-IM-Server/config
             readOnly: true
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 10002
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 10002
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 10002
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   httpGet:
+        #     path: /health
+        #     port: 10002
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         env:
           - name: CONFIG_NAME
             value: "/Open-IM-Server"

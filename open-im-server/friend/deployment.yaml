@@ -24,16 +24,16 @@ spec:
           name: friend-port
         - containerPort: 20120
           name: friend-prome-port  
-        readinessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10120"]
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10120"]
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10120"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10120"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config

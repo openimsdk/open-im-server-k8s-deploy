@@ -24,16 +24,16 @@ spec:
           name: msg-port
         - containerPort: 20130
           name: msg-prome-port
-        readinessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10130"]
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:10130"]
-          initialDelaySeconds: 10
-          periodSeconds: 10
+        # readinessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10130"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10130"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
         volumeMounts:
           - name: config
             mountPath: /Open-IM-Server/config
