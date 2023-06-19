@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-deployment
+spec:
+  selector:
+    matchLabels:
+      app: enterprise
+  replicas: 3 
+  template:
+    metadata:
+      labels:
+        app: enterprise 
+    spec:
+      containers:
+      - name: enterprise
+        image: openim/open_im_enterprise:errcode
+        imagePullPolicy: Always
+        command: ["./docker_start_all.sh"]
+        ports:
+        - containerPort: 10008
+          name: api-port
+        - containerPort: 10009
+          name: admin-api-port  
+        # readinessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10120"]
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   exec:
+        #     command: ["/bin/grpc_health_probe", "-addr=:10120"]
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 10
+        volumeMounts:
+          - name: config
+            mountPath: /chat/config
+            readOnly: true
+        env:
+          - name: CONFIG_NAME
+            value: "/Open-IM-Server"
+        resources:
+          requests:
+            memory: "125Mi"
+            cpu: 75m
+          limits:
+            memory: "512Mi"
+            cpu: 300m
+      volumes:
+        - name: config
+          projected:
+            sources:
+            - configMap:
+                name: openim-enterprise-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - enterprise
+              topologyKey: kubernetes.io/hostname
+  strategy:
+    type: RollingUpdate 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enterprise
+spec:
+  ports:
+    - name: api-svc-port
+      protocol: TCP
+      port: 10008
+      targetPort: api-port
+    - name: admin-svc-port
+      protocol: TCP
+      port: 10009
+      targetPort: admin-api-port
+  selector:
+    app: enterprise
+  type: NodePort  
