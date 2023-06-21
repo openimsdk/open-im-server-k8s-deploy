@@ -35,7 +35,7 @@ spec:
         #   periodSeconds: 10
         volumeMounts:
           - name: config
-            mountPath: /chat/config
+            mountPath: /datanew/errcode/Open-IM-Enterprise/config
             readOnly: true
         env:
           - name: CONFIG_NAME
